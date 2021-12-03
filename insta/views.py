@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from .forms import CreateUserForm
 
 # Create your views here.
@@ -15,7 +16,17 @@ def index(request):
     return render(request,'base.html', context)
 
 
-def login(request):
+def loginView(request):
+    if request.method == "POST":
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+
+        user=authenticate(request,username=username,password=password)
+        if user is not None:
+            login(request,user)
+            return redirect('index')
+        else:
+            messages.info(request,'Username or password is in correct')
 
     return render(request,'auth/login.html')
 
