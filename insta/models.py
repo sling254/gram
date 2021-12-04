@@ -93,3 +93,11 @@ class Follows(models.Model):
 
   def __str__(self):
     return "%s follower" % self.follower
+
+
+class Like(models.Model):
+  image =models.ForeignKey(Post, on_delete = models.CASCADE,related_name='photolikes')
+  liker=models.ForeignKey(User,on_delete = models.CASCADE,related_name='userlikes')
+
+  def __str__(self):
+    return "%s like" % self.photo
