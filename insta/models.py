@@ -18,3 +18,12 @@ class Profile(models.Model):
 
 
 class Post(models.Model):
+    image = CloudinaryField('image')
+    photo_name = models.CharField(max_length=60)
+    posted_at = models.DateTimeField(auto_now_add=True)
+    photo_caption = models.TextField()
+    user = models.ForeignKey(User,on_delete = models.CASCADE)
+
+    def save_photo(self):
+        self.save()
+
