@@ -7,6 +7,9 @@ from .forms import CreateUserForm
 
 # Create your views here.
 
+
+
+
 @login_required(login_url='login')
 def index(request):
     title = "i was in June"
@@ -56,3 +59,9 @@ def register(request):
 def logoutuser(request):
     logout(request)
     return redirect ('login')
+
+
+def profileview(request):
+    context={}
+
+    return render(request, "profile.html",context)
