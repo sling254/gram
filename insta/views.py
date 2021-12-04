@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect, get_object_or_404
 from django.http import Http404,HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from . forms import postPhotoForm
+from . forms import postPhotoForm, CreateUserForm
 from django.contrib.auth import authenticate,login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Post,Profile
@@ -31,11 +31,12 @@ def index(request):
 def post(request):
   if request.method == 'POST':
     post_form = postPhotoForm(request.POST,request.FILES) 
-    if post_form.is_valid():
+    if post_form.is_valid():        
       the_post = post_form.save(commit = False)
+      
       the_post.user = request.user
       the_post.save()
-      return redirect('home')
+      return redirect('index')
 
   else:
     post_form = postPhotoForm()
