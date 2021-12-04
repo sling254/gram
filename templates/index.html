@@ -28,10 +28,11 @@
           <div class="card" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title">
-                <img src="{% static 'img/usericon.png' %}" width="35"height="35" alt="" srcset=""> Nature beauty
-                <br>
-                <hr>
-                <img src="{% static 'img/usericon.png' %}" width="35"height="35" alt="" srcset=""> sling 254
+                  {% for user in users%}
+                    <img src="{% static 'img/usericon.png' %}" width="35"height="35" alt="" srcset=""> {{user.username}}
+                    <br>
+                    <hr>
+                  {% endfor %}
               </h5>
             </div>
           </div>

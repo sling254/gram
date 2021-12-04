@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .forms import CreateUserForm
 
 # Create your views here.
@@ -12,9 +13,11 @@ from .forms import CreateUserForm
 
 @login_required(login_url='login')
 def index(request):
+    users = User.objects.all()
     title = "i was in June"
     context={
         "title":title,
+        "users":users,
     }
 
     return render(request,'index.html', context)
