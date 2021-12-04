@@ -86,3 +86,10 @@ class Post(models.Model):
     return "%s photo" % self.photo_name
 
 
+
+class Follows(models.Model):
+  follower = models.ForeignKey(Profile, related_name='following',on_delete = models.CASCADE)
+  followee = models.ForeignKey(Profile, related_name='followers',on_delete = models.CASCADE)
+
+  def __str__(self):
+    return "%s follower" % self.follower
