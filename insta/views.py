@@ -1,10 +1,15 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
+from django.http import Http404,HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from . forms import postPhotoForm
+from django.contrib.auth import authenticate,login, logout
 from django.contrib.auth.decorators import login_required
+from .models import Post,Profile
+from django.http import JsonResponse
 from django.contrib.auth.models import User
-from .forms import CreateUserForm
+from django.core.exceptions import ObjectDoesNotExist
+
 
 # Create your views here.
 
@@ -21,6 +26,23 @@ def index(request):
     }
 
     return render(request,'index.html', context)
+
+@login_required
+def post(request):
+  if request.method == 'POST':
+    post_form = postPhotoForm(request.POST,request.FILES) 
+    if post_form.is_valid():
+      the_post = post_form.save(commit = False)
+      the_post.user = request.user
+      the_post.save()
+      return redirect('home')
+
+  else:
+    post_form = postPhotoForm()
+  return render(request,'post.html',{"post_form":post_form})
+
+
+
 
 
 def loginView(request):
