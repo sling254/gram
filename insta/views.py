@@ -17,7 +17,7 @@ def index(request):
         "title":title,
     }
 
-    return render(request,'base.html', context)
+    return render(request,'index.html', context)
 
 
 def loginView(request):

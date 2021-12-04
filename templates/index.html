@@ -1,0 +1,50 @@
+{% extends 'base.html'%}
+{% load static%}
+
+{% block content %}
+<!-- Posts -->
+<div class="container">
+    <div class="row mt-3 ">
+        <div class="col-md-8">
+          
+          <div class="card"  style="width: 25rem;">
+              <div class="card-header">
+                <img src="{% static 'img/usericon.png' %}" width="35"height="35" alt="" srcset=""> Nature beauty
+              </div>
+              <img src="https://random.imagecdn.app/500/150" height="" class="card-img-top img-fluid rounded-start " alt="img">
+              <div class="card-body">
+                <p class="card-text">
+                  <i class="far fa-heart"></i> &nbsp;
+                  <i class="fas fa-comment"></i>
+                </p>
+                <p class="card-text">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum, magnam.
+                </p>
+              </div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">
+                <img src="{% static 'img/usericon.png' %}" width="35"height="35" alt="" srcset=""> Nature beauty
+                <br>
+                <hr>
+                <img src="{% static 'img/usericon.png' %}" width="35"height="35" alt="" srcset=""> sling 254
+              </h5>
+            </div>
+          </div>
+        
+        </div>
+    </div>
+  </div>
+ 
+
+
+
+ 
+
+  <!-- Endposts -->
+
+{% endblock %}
