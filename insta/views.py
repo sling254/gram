@@ -80,12 +80,28 @@ class ProfileView(View):
         profile = Profile.objects.get(pk=pk)
         user = profile.user
         posts = Post.objects.filter(user=user).order_by('-posted_at')
+        followers = profile.followers.all()
+
+        if len(followers) == 0:
+            is_following = False
+
+        for follower in followers:
+            if follower == request.user:
+                is_following = True
+                break
+            else:
+                is_following = False
+
+        number_of_followers = len(followers)
 
         context = {
             'user': user,
             'profile': profile,
-            'posts': posts
+            'posts': posts,
+            'number_of_followers': number_of_followers,
+            'is_following': is_following,
         }
+
 
         return render(request, 'profile.html', context)
 
@@ -211,8 +227,18 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == comment.author
 
 
+class AddFollower(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        profile = Profile.objects.get(pk=pk)
+        profile.followers.add(request.user)
 
+        return redirect('profile', pk=profile.pk)
+class RemoveFollower(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        profile = Profile.objects.get(pk=pk)
+        profile.followers.remove(request.user)
 
+        return redirect('profile', pk=profile.pk)
 
 def loginView(request):
     if request.user.is_authenticated:

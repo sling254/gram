@@ -59,6 +59,13 @@
                         {{c_form}}
                         <input type="submit" name="submit">
                     </form>
+
+
+                    <p><a style="text-decoration: none" class="text-primary" href="{% url 'profile' post.user.profile.pk %}">@{{ post.user }}</a> {{ post.posted_at }}</p>
+                    <div class="position-relative">
+                        <p>{{ post.photo_caption }}</p>
+                        <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                    </div>
               </div>
                   </p>
                   <p class="card-text">
