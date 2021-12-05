@@ -7,6 +7,8 @@ from cloudinary.models import CloudinaryField
 # Create your models here.
 
 
+
+
 class Profile(models.Model):
   profile_photo = CloudinaryField('image')
   bio = models.TextField()
@@ -53,7 +55,7 @@ class Profile(models.Model):
 
 class Post(models.Model):
   photo = CloudinaryField('image')
-  photo_name = models.CharField(max_length=60)
+  photo_name = models.CharField(max_length=100)
   posted_at = models.DateTimeField(auto_now_add=True)
   photo_caption = models.TextField()
   user = models.ForeignKey(User,on_delete = models.CASCADE)

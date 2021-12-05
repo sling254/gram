@@ -19,10 +19,12 @@ from django.core.exceptions import ObjectDoesNotExist
 @login_required(login_url='login')
 def index(request):
     users = User.objects.all()
+    posts = Post.objects.all()
     title = "i was in June"
     context={
         "title":title,
         "users":users,
+        "posts":posts,
     }
 
     return render(request,'index.html', context)
