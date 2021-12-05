@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm, fields
 from django import forms
-from .models import Post
+from .models import Post,Comment
 
 
 
@@ -15,3 +15,15 @@ class postPhotoForm(forms.ModelForm):
   class Meta:
     model = Post
     fields = ['photo','photo_name','photo_caption']
+
+
+
+class CommentsForm(forms.ModelForm):
+  def __init__(self,*args,**kwargs):
+    super().__init__(*args,**kwargs)
+    self.fields['comment'].widget=forms.TextInput()
+    self.fields['comment'].widget.attrs['placeholder']='Leave a comment...'
+  class Meta:
+    model = Comment
+    fields = ('comment',)
+    

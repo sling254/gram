@@ -59,6 +59,9 @@ class Post(models.Model):
   posted_at = models.DateTimeField(auto_now_add=True)
   photo_caption = models.TextField()
   user = models.ForeignKey(User,on_delete = models.CASCADE)
+  likes = models.ManyToManyField(User, blank=True, related_name='likes')
+  dislikes = models.ManyToManyField(User, blank=True, related_name='dislikes')
+
 
   def save_photo(self):
      self.save()
