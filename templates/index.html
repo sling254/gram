@@ -22,6 +22,26 @@
                 </p>
               </div>
             </div>
+            <br>
+            <!--  -->
+            {% for post in posts %}
+              <div class="card"  style="width: 25rem;">
+                <div class="card-header">
+                  <img src="{% static 'img/usericon.png' %}"width="35"height="35" alt="" srcset=""> {{post.user}}
+                </div>
+                <img src="{{post.photo.url}}" height="" class="card-img-top img-fluid rounded-start " alt="img">
+                <div class="card-body">
+                  <p class="card-text">
+                    <i class="far fa-heart"></i> &nbsp;
+                    <i class="fas fa-comment"></i>
+                  </p>
+                  <p class="card-text">
+                    {{post.photo_caption}}
+                  </p>
+                </div>
+              </div>
+              <br>
+            {% endfor %}
 
         </div>
         <div class="col-md-4">
