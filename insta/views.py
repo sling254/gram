@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.http import Http404,HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -10,6 +11,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.views.generic.edit import UpdateView, DeleteView
 from django.views import View
 
 # Create your views here.
@@ -85,6 +87,19 @@ class ProfileView(View):
         }
 
         return render(request, 'profile.html', context)
+
+class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Profile
+    fields = ['name', 'bio', 'birth_date', 'location', 'profile_photo']
+    template_name = 'profile_edit.html'
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy('profile', kwargs={'pk': pk})
+
+    def test_func(self):
+        profile = self.get_object()
+        return self.request.user == profile.user
 #@login_required(login_url='login')
 def index(request):
     users = User.objects.all()

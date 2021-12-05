@@ -15,7 +15,7 @@
             <h3 class="py-4">{{ profile.name }}
                 <span>
                     {% if request.user == user %}
-                        <a href="#" style="color: #333"><i class="far fa-edit"></i></a>
+                        <a href="{% url 'profile-edit' profile.pk%}" style="color: #333"><i class="far fa-edit"></i></a>
                     {% endif %}
                 </span>
                 {% else %}
