@@ -13,6 +13,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views import View
+from django.db.models import Q
 
 
 # Create your views here.
@@ -239,6 +240,20 @@ class RemoveFollower(LoginRequiredMixin, View):
         profile.followers.remove(request.user)
 
         return redirect('profile', pk=profile.pk)
+
+
+class UserSearch(View):
+    def get(self, request, *args, **kwargs):
+        query = self.request.GET.get('query')
+        posts = Profile.objects.filter(
+            Q(user__username__icontains=query)
+        )
+
+        context = {
+            'posts': posts,
+        }
+
+        return render(request, 'search.html', context)
 
 def loginView(request):
     if request.user.is_authenticated:

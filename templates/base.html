@@ -28,12 +28,12 @@
           <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/admin">Admin</a>
               </li>
-                <form class="d-flex">
+                <form class="d-flex" action="{% url 'profile-search' %}">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"value="{{ request.GET.query}}" name="query">
                     <button class="btn btn-outline-success" style="border:none; box-shadow:none" type="submit">
                       <i class="fas fa-search"></i>
