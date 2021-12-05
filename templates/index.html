@@ -29,7 +29,9 @@
                 <div class="card-header">
                   <img src="{% static 'img/usericon.png' %}"width="35"height="35" alt="" srcset=""> {{post.user}}
                 </div>
-                <img src="{{post.photo.url}}" height="" class="card-img-top img-fluid rounded-start " alt="img">
+                <a href="{% url 'post-detail'  post.pk%}">
+                  <img src="{{post.photo.url}}" height="" class="card-img-top img-fluid rounded-start " alt="img">
+                </a>
                 <div class="card-body">
                   <p class="card-text">
                     <div class="d-flex flex-row">

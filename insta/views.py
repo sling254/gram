@@ -14,6 +14,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views import View
 
+
 # Create your views here.
 class AddLike(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
@@ -140,6 +141,74 @@ def post(request):
   else:
     post_form = postPhotoForm()
   return render(request,'post.html',{"post_form":post_form})
+
+class PostDetailView(LoginRequiredMixin, View):
+    def get(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(pk=pk)
+        form = CommentsForm()
+        comments = Comment.objects.filter(post=post).order_by('-created_on')
+
+        context = {
+            'post': post,
+            'form': form,
+            'comments': comments,
+        }
+
+        return render(request, 'post_detail.html', context)
+
+    def post(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(pk=pk)
+        form = CommentsForm(request.POST)
+
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.author = request.user
+            new_comment.post = post
+            new_comment.save()
+        
+        comments = Comment.objects.filter(post=post).order_by('-created_on')
+
+        context = {
+            'post': post,
+            'form': form,
+            'comments': comments,
+        }
+
+        return render(request, 'post_detail.html', context)
+
+class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['photo_caption']
+    template_name = 'post_edit.html'
+    
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy('post-detail', kwargs={'pk': pk})
+    
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.user
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'post_delete.html'
+    success_url = reverse_lazy('post-list')
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.user
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    template_name = 'comment_delete.html'
+
+    def get_success_url(self):
+        pk = self.kwargs['post_pk']
+        return reverse_lazy('post-detail', kwargs={'pk': pk})
+
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
 
 
 
