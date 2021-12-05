@@ -6,14 +6,18 @@ from django.db.models.signals import post_save
 from cloudinary.models import CloudinaryField
 
 # Create your models here.
-
-
+ 
 
 
 class Profile(models.Model):
-  profile_photo = CloudinaryField('image')
+  profile_photo = CloudinaryField('image', blank=True)
   bio = models.TextField()
-  user = models.OneToOneField(User,on_delete = models.CASCADE)
+  name = models.CharField(max_length=30, blank=True, null=True)
+  bio = models.TextField(max_length=500, blank=True, null=True)
+  birth_date=models.DateField(null=True, blank=True)
+  location = models.CharField(max_length=100, blank=True, null=True)
+  user = models.OneToOneField(User, primary_key=True, verbose_name='user', related_name='profile', on_delete=models.CASCADE)
+  
 
 
   @receiver(post_save , sender = User)
@@ -25,34 +29,10 @@ class Profile(models.Model):
   def save_profile(sender,instance,**kwargs):
     instance.profile.save()
 
-  @property
-  def saved_followers(self):
-    return self.followers.count()   
 
-  @property
-  def saved_following(self):
-    return self.following.count() 
-
-
-  @property
-  def follows(self):
-    return [follow.followee for follow in self.following.all()]
-
-  @property
-  def following(self):
-    return self.followers.all()
-
-
-
-  @classmethod
-  def search_profiles(cls,search_term):
-    profiles = cls.objects.filter(user__username__icontains = search_term).all()
-    return profiles
 
   def __str__(self):
     return "%s profile" % self.user
-
-
 
 class Post(models.Model):
   photo = CloudinaryField('image')

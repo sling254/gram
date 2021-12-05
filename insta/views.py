@@ -72,7 +72,19 @@ class AddDislike(LoginRequiredMixin, View):
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
 
+class ProfileView(View):
+    def get(self, request, pk, *args, **kwargs):
+        profile = Profile.objects.get(pk=pk)
+        user = profile.user
+        posts = Post.objects.filter(user=user).order_by('-posted_at')
 
+        context = {
+            'user': user,
+            'profile': profile,
+            'posts': posts
+        }
+
+        return render(request, 'profile.html', context)
 #@login_required(login_url='login')
 def index(request):
     users = User.objects.all()
@@ -159,7 +171,3 @@ def logoutuser(request):
     return redirect ('login')
 
 
-def profileview(request):
-    context={}
-
-    return render(request, "profile.html",context)
