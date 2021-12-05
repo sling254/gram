@@ -34,9 +34,13 @@
                 <a class="nav-link active" aria-current="page" href="/admin">Admin</a>
               </li>
                 <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"value="{{ request.GET.query}}" name="query">
+                    <button class="btn btn-outline-success" style="border:none; box-shadow:none" type="submit">
+                      <i class="fas fa-search"></i>
+                    </button>
                 </form>
+                
+              {% if user.is_authenticated %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   {{ request.user}}<img src="{% static 'img/usericon.png' %}" width="35"height="35" alt="" srcset="">
@@ -48,6 +52,11 @@
                   <li><a class="dropdown-item" href="#"></a></li>
                 </ul>
               </li>
+              {%else %}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/login">Login</a>
+              </li>
+              {% endif %}
               
               
             </ul>

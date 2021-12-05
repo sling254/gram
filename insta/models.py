@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
+from django.utils import timezone
 from django.db.models.signals import post_save
 from cloudinary.models import CloudinaryField
 
@@ -110,14 +111,13 @@ class Like(models.Model):
 
 
 class Comment(models.Model):
-  comment = models.TextField()
-  photo = models.ForeignKey(Post,on_delete = models.CASCADE,related_name='comments')
-  user = models.ForeignKey(User,on_delete = models.CASCADE,related_name='comments')
+    comment = models.TextField()
+    created_on = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    post = models.ForeignKey('Post', on_delete=models.CASCADE,blank=True, null=True)
+    
 
-  @classmethod
-  def display_comments_by_photoId(cls,photo_id):
-    comments = cls.objects.filter(photo_id = photo_id)
-    return comments
 
-  def __str__(self):
-    return "%s comment" % self.photo
+
+    def __str__(self):
+      return self.comment

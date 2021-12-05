@@ -48,6 +48,15 @@
                               <i class="far fa-thumbs-down"> <span>{{ post.dislikes.all.count }}</span></i>
                           </button>
                       </form>
+                      {% for comment in comments%}
+                        {{comment.comment}}
+                      {% endfor %}
+                      <br>
+                      <form method="POST" action="">
+                        {% csrf_token %}
+                        {{c_form}}
+                        <input type="submit" name="submit">
+                    </form>
               </div>
                   </p>
                   <p class="card-text">

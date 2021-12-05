@@ -5,7 +5,7 @@ from django.contrib import messages
 from . forms import postPhotoForm, CreateUserForm,CommentsForm
 from django.contrib.auth import authenticate,login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Post,Profile,Like
+from .models import Post,Profile,Like,Comment
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -73,16 +73,27 @@ class AddDislike(LoginRequiredMixin, View):
         return HttpResponseRedirect(next)
 
 
-
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def index(request):
     users = User.objects.all()
     posts = Post.objects.all()
+    comments = Comment.objects.all()
+    form = CommentsForm()
     title = "i was in June"
+    if request.method == 'POST':
+        form = CommentsForm(request.POST) 
+    if form.is_valid():        
+      form = form.save(commit = False)      
+      form.author = request.user
+      form.save()
+      return redirect('index')
+
     context={
         "title":title,
         "users":users,
         "posts":posts,
+        "comments":comments,
+        "c_form":form
     }
 
     return render(request,'index.html', context)
