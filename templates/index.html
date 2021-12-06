@@ -82,7 +82,7 @@
             <div class="card-body">
               <h5 class="card-title">
                   {% for user in users%}
-                    <img src="{{ user.profile.profile_photo.url}}"width="35"height="35" alt="" srcset=""class="rounded-circle"> {{user.username}}
+                    <img src="{{ user.profile.profile_photo.url }}"width="35"height="35" alt="" class="rounded-circle"> {{user.username}}
                     <br>
                     <hr>
                   {% endfor %}
