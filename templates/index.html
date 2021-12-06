@@ -1,4 +1,4 @@
-{% extends 'base.html'%}
+{% extends 'base.html'%} 
 {% load static%}
 {% load crispy_forms_tags %}
 
@@ -6,29 +6,13 @@
 <!-- Posts -->
 <div class="container">
     <div class="row g-0 mt-3  ">
-        <div class="col-md-8">
-          
-          <div class="card"  style="width: 25rem;">
-              <div class="card-header">
-                <img src="{% static 'img/usericon.png' %}" width="35"height="35" alt="" srcset=""> Nature beauty
-              </div>
-              <img src="https://random.imagecdn.app/500/150" height="" class="card-img-top img-fluid rounded-start " alt="img">
-              <div class="card-body">
-                <p class="card-text">
-                  <i class="far fa-heart"></i> &nbsp;
-                  <i class="fas fa-comment"></i>
-                </p>
-                <p class="card-text">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum, magnam.
-                </p>
-              </div>
-            </div>
-            <br>
+        <div class="col-md-8">          
+          <div class="card"  style="width: 25rem;">             
             <!--  -->
             {% for post in posts %}
               <div class="card"  style="width: 25rem;">
                 <div class="card-header">
-                  <img src="{% static 'img/usericon.png' %}"width="35"height="35" alt="" srcset=""> {{post.user}}
+                  <img src="{{ post.user.profile.profile_photo.url}}"width="35"height="35" alt="" srcset=""class="rounded-circle"> {{post.user}}
                 </div>
                 <a href="{% url 'post-detail'  post.pk%}">
                   <img src="{{post.photo.url}}" height="" class="card-img-top img-fluid rounded-start " alt="img">
@@ -60,9 +44,9 @@
                       </form>
                       <!-- End of Dislikes -->
                     </div>
-                  </p>
+                  
                   <!-- Start of the Comments  -->
-                  <p>
+                 
                     {% for comment in comments%}
                     {{comment.comment}}
                     {% endfor %}
@@ -72,7 +56,7 @@
                   <p>
                     <form class="d-flex" action="">
                       {% csrf_token %}
-                      {{c_form}}
+                      {{c_form|crispy}}
                       <input type="submit" name="submit">
                     </form>
                   </p>
@@ -84,13 +68,14 @@
             {% endfor %}
           <!--  -->
         </div>
+        </div>
         <!-- User Section -->
         <div class="col-md-4">
           <div class="card" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title">
                   {% for user in users%}
-                    <img src="{% static 'img/usericon.png' %}" width="35"height="35" alt="" srcset=""> {{user.username}}
+                    <img src="{{ user.profile.profile_photo.url}}"width="35"height="35" alt="" srcset=""class="rounded-circle"> {{user.username}}
                     <br>
                     <hr>
                   {% endfor %}
@@ -102,12 +87,5 @@
         <!-- End User Section -->
     </div>
   </div>
- 
-
-
-
- 
-
-  <!-- Endposts -->
 
 {% endblock %}

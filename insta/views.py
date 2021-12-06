@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
-from django.views.generic.edit import UpdateView, DeleteView
+from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.views import View
 from django.db.models import Q
 
@@ -106,6 +106,19 @@ class ProfileView(View):
 
         return render(request, 'profile.html', context)
 
+
+    model = Profile
+    fields = ['name', 'bio', 'birth_date', 'location', 'profile_photo']
+    template_name = 'profile_create.html'
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy('profile', kwargs={'pk': pk})
+
+    def test_func(self):
+        profile = self.get_object()
+        return self.request.user == profile.user
+
 class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Profile
     fields = ['name', 'bio', 'birth_date', 'location', 'profile_photo']
@@ -119,7 +132,7 @@ class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         profile = self.get_object()
         return self.request.user == profile.user
 
-@login_required(login_url='login')
+
 def index(request):
     users = User.objects.all()
     posts = Post.objects.all()

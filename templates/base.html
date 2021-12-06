@@ -1,7 +1,7 @@
 {% load static%}
 {% load crispy_forms_tags %}
 <!doctype html>
-<html lang="en">
+<html lang="en">  
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -30,16 +30,19 @@
             <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/">Home</a>
-              </li>
+              </li> 
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'post'%}">Post</a>
+              </li>             
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/admin">Admin</a>
-              </li>
-                <form class="d-flex" action="{% url 'profile-search' %}">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"value="{{ request.GET.query}}" name="query">
-                    <button class="btn btn-outline-success" style="border:none; box-shadow:none" type="submit">
-                      <i class="fas fa-search"></i>
-                    </button>
-                </form>
+              </li>              
+              <form class="d-flex" action="{% url 'profile-search' %}">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"value="{{ request.GET.query}}" name="query">
+                  <button class="btn btn-outline-success" style="border:none; box-shadow:none" type="submit">
+                    <i class="fas fa-search"></i>
+                  </button>
+              </form>
                 
               {% if user.is_authenticated %}
               <li class="nav-item dropdown">
