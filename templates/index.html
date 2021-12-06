@@ -1,10 +1,11 @@
 {% extends 'base.html'%}
 {% load static%}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <!-- Posts -->
 <div class="container">
-    <div class="row mt-3 ">
+    <div class="row g-0 mt-3  ">
         <div class="col-md-8">
           
           <div class="card"  style="width: 25rem;">
@@ -32,9 +33,15 @@
                 <a href="{% url 'post-detail'  post.pk%}">
                   <img src="{{post.photo.url}}" height="" class="card-img-top img-fluid rounded-start " alt="img">
                 </a>
+                <p><a style="text-decoration: none" class="text-primary" href="{% url 'profile' post.user.profile.pk %}">@{{ post.user }}</a> {{ post.posted_at }}</p>
+                    <div class="position-relative">
+                        <h4>{{ post.photo_caption }}</h4>
+                        <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                    </div>
                 <div class="card-body">
                   <p class="card-text">
                     <div class="d-flex flex-row">
+                      <!-- Start of likes -->
                       <form method="POST" action="{% url 'like' post.pk %}">
                           {% csrf_token %}
                           <input type="hidden" name="next" value="{{ request.path }}">
@@ -42,42 +49,42 @@
                               <i class="far fa-thumbs-up"> <span>{{ post.likes.all.count }}</span></i>
                           </button>
                       </form>
-      
+                      <!-- Endof likes -->
+                      <!-- Starts of Dislikes -->
                       <form method="POST" action="{% url 'dislike' post.pk %}">
-                          {% csrf_token %}
-                          <input type="hidden" name="next" value="{{ request.path }}">
-                          <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
-                              <i class="far fa-thumbs-down"> <span>{{ post.dislikes.all.count }}</span></i>
-                          </button>
-                      </form>
-                      {% for comment in comments%}
-                        {{comment.comment}}
-                      {% endfor %}
-                      <br>
-                      <form method="POST" action="">
                         {% csrf_token %}
-                        {{c_form}}
-                        <input type="submit" name="submit">
-                    </form>
-
-
-                    <p><a style="text-decoration: none" class="text-primary" href="{% url 'profile' post.user.profile.pk %}">@{{ post.user }}</a> {{ post.posted_at }}</p>
-                    <div class="position-relative">
-                        <p>{{ post.photo_caption }}</p>
-                        <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
+                            <i class="far fa-thumbs-down"> <span>{{ post.dislikes.all.count }}</span></i>
+                        </button>
+                      </form>
+                      <!-- End of Dislikes -->
                     </div>
-              </div>
                   </p>
-                  <p class="card-text">
-                    {{post.photo_caption}}
+                  <!-- Start of the Comments  -->
+                  <p>
+                    {% for comment in comments%}
+                    {{comment.comment}}
+                    {% endfor %}
                   </p>
-
+                  <!-- End of the Comments -->
+                  <!-- Start comment form -->
+                  <p>
+                    <form class="d-flex" action="">
+                      {% csrf_token %}
+                      {{c_form}}
+                      <input type="submit" name="submit">
+                    </form>
+                  </p>
+                  <!-- End comment Form -->
+                  
                 </div>
               </div>
               <br>
             {% endfor %}
-
+          <!--  -->
         </div>
+        <!-- User Section -->
         <div class="col-md-4">
           <div class="card" style="width: 18rem;">
             <div class="card-body">
@@ -92,6 +99,7 @@
           </div>
         
         </div>
+        <!-- End User Section -->
     </div>
   </div>
  
