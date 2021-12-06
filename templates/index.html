@@ -12,7 +12,7 @@
             {% for post in posts %}
               <div class="card"  style="width: 25rem;">
                 <div class="card-header">
-                  <img src="{{ post.user.profile.profile_photo.url}}"width="35"height="35" alt="" srcset=""class="rounded-circle"> {{post.user}}
+                  <img src="{{ post.user.profile.profile_photo.url }}"width="35"height="35" alt="" class="rounded-circle"> {{post.user}}
                 </div>
                 <a href="{% url 'post-detail'  post.pk%}">
                   <img src="{{post.photo.url}}" height="" class="card-img-top img-fluid rounded-start " alt="img">
