@@ -118,7 +118,8 @@ class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         profile = self.get_object()
         return self.request.user == profile.user
-#@login_required(login_url='login')
+
+@login_required(login_url='login')
 def index(request):
     users = User.objects.all()
     posts = Post.objects.all()
