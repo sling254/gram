@@ -85,7 +85,7 @@ class Like(models.Model):
 
 
 class Comment(models.Model):
-    comment = models.TextField()
+    comment = models.CharField(max_length=100)
     created_on = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     post = models.ForeignKey('Post', on_delete=models.CASCADE,blank=True, null=True)
