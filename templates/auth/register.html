@@ -1,9 +1,25 @@
-<h1>Register</h1>
+{% extends 'base.html'%} 
+{% load crispy_forms_tags%}
+{% block content%}
+{% for message in messages %}
+    <p>{{message}}</p>
+{% endfor %}
 
 
-<form action="" method="POST">
-    {% csrf_token %}
-    {{form.errors}}
-    {{form.as_p}}
-    <input type="submit" name="submit">
-</form>
+<h2 class="text-center">Join Us today</h2>
+<hr>
+<div class="container">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form.errors}}
+        
+        {{form|crispy}}
+        <input type="submit" name="submit">
+    </form>
+    <small>Already have an account <a href="{% url 'login'%}">Login</a></small>
+
+</div>
+
+
+
+{% endblock %}

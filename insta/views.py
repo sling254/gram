@@ -133,6 +133,7 @@ class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user == profile.user
 
 
+
 def index(request):
     users = User.objects.all()
     posts = Post.objects.all()
